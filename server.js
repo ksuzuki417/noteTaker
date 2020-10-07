@@ -44,7 +44,7 @@ app.post("/api/notes", function (request, response) {
 });
 
 //API routes - deleting notes
-app.delete("/api/notes", function(request, response){
+app.delete("/api/notes/:id", function(request, response){
     var savedNotes = JSON.parse(fs.readFileSync("db/db.json", "utf8"));
     var noteId =request.param.id;
     console.log("note is deleted");
@@ -52,7 +52,7 @@ app.delete("/api/notes", function(request, response){
         return currentNote.id != noteId;
     })
 
-    writeFile("db/db.json", JSON.stringify(savedNotes));
+    fs.writeFileSync("db/db.json", JSON.stringify(savedNotes));
     response.json(savedNotes);
 });
 
