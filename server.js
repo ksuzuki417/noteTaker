@@ -34,7 +34,8 @@ app.get("/api/notes", function (request, response) {
 app.post("/api/notes", function (request, response) {
     var savedNotes = JSON.parse(fs.readFileSync("db/db.json", "utf8"));
     var newNotes = request.body;
-    var noteId = noteId;
+    var noteId = (savedNotes.length).toString();
+    newNotes.id = noteId;
     savedNotes.push(newNotes);
 
     fs.writeFileSync("db/db.json", JSON.stringify(savedNotes));
@@ -46,7 +47,7 @@ app.post("/api/notes", function (request, response) {
 //API routes - deleting notes
 app.delete("/api/notes/:id", function(request, response){
     var savedNotes = JSON.parse(fs.readFileSync("db/db.json", "utf8"));
-    var noteId =request.param.id;
+    var noteId =request.params.id;
     console.log("note is deleted");
     savedNotes = savedNotes.filter(currentNote => {
         return currentNote.id != noteId;
